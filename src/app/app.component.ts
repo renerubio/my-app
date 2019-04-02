@@ -71,7 +71,7 @@ export class AppComponent implements OnInit {
    		});
     }
 
-    levelNum:array = [this.lat, this.lng, this.id];
+    levelNum = [this.lat, this.lng, this.id];
 
 	toNumber(){
 	    this.levelNum = [ +this.levelNum[0], +this.levelNum[1], +this.levelNum[2] ];
