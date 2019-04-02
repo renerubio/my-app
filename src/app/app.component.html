@@ -1,21 +1,52 @@
-<!--The content below is only a placeholder and can be replaced.-->
-<div style="text-align:center">
-  <h1>
-    Welcome to {{ title }}!
-  </h1>
-  <img width="300" alt="Angular Logo" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNTAgMjUwIj4KICAgIDxwYXRoIGZpbGw9IiNERDAwMzEiIGQ9Ik0xMjUgMzBMMzEuOSA2My4ybDE0LjIgMTIzLjFMMTI1IDIzMGw3OC45LTQzLjcgMTQuMi0xMjMuMXoiIC8+CiAgICA8cGF0aCBmaWxsPSIjQzMwMDJGIiBkPSJNMTI1IDMwdjIyLjItLjFWMjMwbDc4LjktNDMuNyAxNC4yLTEyMy4xTDEyNSAzMHoiIC8+CiAgICA8cGF0aCAgZmlsbD0iI0ZGRkZGRiIgZD0iTTEyNSA1Mi4xTDY2LjggMTgyLjZoMjEuN2wxMS43LTI5LjJoNDkuNGwxMS43IDI5LjJIMTgzTDEyNSA1Mi4xem0xNyA4My4zaC0zNGwxNy00MC45IDE3IDQwLjl6IiAvPgogIDwvc3ZnPg==">
-</div>
-<h2>Here are some links to help you start: </h2>
-<ul>
-  <li>
-    <h2><a target="_blank" rel="noopener" href="https://angular.io/tutorial">Tour of Heroes</a></h2>
-  </li>
-  <li>
-    <h2><a target="_blank" rel="noopener" href="https://angular.io/cli">CLI Documentation</a></h2>
-  </li>
-  <li>
-    <h2><a target="_blank" rel="noopener" href="https://blog.angular.io/">Angular blog</a></h2>
-  </li>
-</ul>
+<h1>
+  Welcome to {{ titlePage }}!
+</h1>
+
+<!-- <h2> City List </h2> 
+<pre>{{ list | json }}</pre>-->
+
+<!--  <h2> City Show </h2> 
+<pre>{{ show | json }}</pre> -->
+
+<!-- <h2> Create </h2>
+<pre>{{ create | json }}</pre> -->
+<h2>Muestra el mapa</h2>
+<select type="number" [(ngModel)]="levelNum" (ngModelChange)="toNumber();">
+  <option *ngFor="let city of list" [ngValue]="[city.lat, city.long]" >{{city.title}}</option>
+</select>
+
+<agm-map [latitude]="levelNum[0]" [longitude]="levelNum[1]">
+  <agm-marker [latitude]="levelNum[0]" [longitude]="levelNum[1]"></agm-marker> 
+</agm-map>
+
+<h2>Consultar</h2>
+<table>
+  <tr *ngFor="let city of list">
+    <td>
+      <tr>
+        <td>          
+          <button (click)="deleteById(city.id)">Eliminar</button><strong> {{city.title}}</strong>
+        </td>
+         <td><img src="{{city.image_url}}" alt="{{city.title}}" style="width: 40%;" /></td>
+          <td>{{city.content}}</td>
+      </tr>
+    </td>    
+  </tr>
+</table>
+
+<h2>Crear nuevo</h2>
+<form>
+  <div>title: <input type="text" name="title" [value]="title" (input)="title = $event.target.value"></div>
+  <div>content: <input type="text" name="content" [value]="content" (input)="content = $event.target.value"></div>
+  <div>lat: <input type="text" name="lat" [value]="lat" (input)="lat = $event.target.value"></div>
+  <div>long: <input type="text" name="long" [value]="long" (input)="long = $event.target.value"></div>
+  <div>image_url: <input type="text" name="image_url" [value]="image_url" (input)="image_url = $event.target.value"></div>
+  <div> <button (click)="createItem()">Enviar</button></div>
+</form>
+
+
+
+<!-- <p>AIzaSyAvJsz8f8QtmQ5mNoxh0KZe2C0Rv4u2-3w</p> -->
+
 
 <router-outlet></router-outlet>
