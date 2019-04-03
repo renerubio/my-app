@@ -13,9 +13,19 @@ export class AppComponent implements OnInit {
 	public list: any = null;
 	public show: any = null;
 
-	public lat: number = 51.678418;
-  	public lng: number = 7.809007;
-  	public id: number = 1;
+	public lat = 0;
+  	public lng = 0;
+  	public id = 0;
+  	public title = "";
+  	public content = "";
+	public image_url = "";
+
+	public lat_ = 0;
+  	public lng_ = 0;
+  	public id_ = 0;
+  	public title_ = "";
+  	public content_ = "";
+	public image_url_ = "";
 
 	titlePage = 'wefox challenge';
 
@@ -41,7 +51,7 @@ export class AppComponent implements OnInit {
   			"title": this.title,
 			"content": this.content,
 			"lat": this.lat,
-			"long": this.long,
+			"long": this.lng,
 			"image_url": this.image_url
   		};
    		this.httpClient
@@ -51,8 +61,15 @@ export class AppComponent implements OnInit {
    		});
     }
 
-    public updateById(id,body) {
+    public updateById(id) {
 	    const url = this.urlapi+id;
+	    let body = {
+  			"title": this.title_,
+			"content": this.content_,
+			"lat": this.lat_,
+			"long": this.lng_,
+			"image_url": this.image_url_
+  		};
 	    this.httpClient
    		.put(url, body)
    		.subscribe((res)=>{ 
@@ -71,18 +88,19 @@ export class AppComponent implements OnInit {
    		});
     }
 
-    levelNum = [this.lat, this.lng, this.id];
+    selectedItem = [
+	    this.lat, 
+	    this.lng, 
+	    this.id, 
+	    this.title, 
+	    this.content, 
+	    this.image_url
+    ];
 
-	toNumber(){
-	    this.levelNum = [ +this.levelNum[0], +this.levelNum[1], +this.levelNum[2] ];
-	    console.log(this.levelNum);
+	format(){
+	    this.selectedItem = [ +this.selectedItem[0], +this.selectedItem[1], +this.selectedItem[2], this.selectedItem[3], this.selectedItem[4], this.selectedItem[5] ];
+	    console.log(this.selectedItem);
 	}
-
-	public title:string = "";
-	public content:string = "";
-	public lat:number = 0;
-	public long:number = 0;
-	public image_url:string = "";
 
  
   	ngOnInit() {
@@ -100,8 +118,6 @@ export class AppComponent implements OnInit {
 		};
     	//this.createItem(body);
 
-    	let updateBody = {"title":"L'H"};
-    	//this.updateById(5,updateBody);
 
     	//this.deleteById(5);
 

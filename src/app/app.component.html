@@ -1,52 +1,122 @@
 <h1>
   Welcome to {{ titlePage }}!
 </h1>
-
 <!-- <h2> City List </h2> 
 <pre>{{ list | json }}</pre>-->
-
 <!--  <h2> City Show </h2> 
 <pre>{{ show | json }}</pre> -->
-
 <!-- <h2> Create </h2>
 <pre>{{ create | json }}</pre> -->
-<h2>Muestra el mapa</h2>
-<select type="number" [(ngModel)]="levelNum" (ngModelChange)="toNumber();">
-  <option *ngFor="let city of list" [ngValue]="[city.lat, city.long]" >{{city.title}}</option>
-</select>
-
-<agm-map [latitude]="levelNum[0]" [longitude]="levelNum[1]">
-  <agm-marker [latitude]="levelNum[0]" [longitude]="levelNum[1]"></agm-marker> 
-</agm-map>
-
-<h2>Consultar</h2>
+<h2>Seleccionar ciudad</h2>
 <table>
-  <tr *ngFor="let city of list">
+  <tr>
     <td>
-      <tr>
-        <td>          
-          <button (click)="deleteById(city.id)">Eliminar</button><strong> {{city.title}}</strong>
-        </td>
-         <td><img src="{{city.image_url}}" alt="{{city.title}}" style="width: 40%;" /></td>
-          <td>{{city.content}}</td>
-      </tr>
+      <label><b>Seleccionar ciudad: </b></label>
+      <select [(ngModel)]="selectedItem" (ngModelChange)="format();" >        
+        <option *ngFor="let city of list" 
+        [ngValue]="[city.lat, city.long, city.id, city.title, city.content, city.image_url]">{{city.title}}</option>
+      </select><br>   
+      {{selectedItem[2]}}<br>
+      {{selectedItem[3]}}<br>
+      {{selectedItem[4]}}<br>
+       <img src="{{selectedItem[5]}}" style="width: 200px;"  /><br>   
     </td>    
+
+    <td>
+      <table>
+        <tr>
+          <th><h2>Actualizar</h2></th>    
+        </tr>
+        <td>
+          <div>title:
+              <input type="text" name="title" [value]="selectedItem[3]" (input)="title_ = $event.target.value">
+          </div>
+          <div>content:
+              <input type="text" name="content" [value]="selectedItem[4]" (input)="content_ = $event.target.value">
+          </div>
+          <div>lat:
+              <input type="text" name="lat" [value]="selectedItem[0]" (input)="lat_ = $event.target.value">
+          </div>
+          <div>long:
+              <input type="text" name="long" [value]="selectedItem[1]" (input)="lng_ = $event.target.value">
+          </div>
+          <div>image_url:
+              <input type="text" name="image_url" [value]="selectedItem[5]" (input)="image_url_ = $event.target.value">
+          </div>
+          <div>
+              <button (click)="updateById(selectedItem[2])">Enviar</button>
+          </div>
+        </td>
+      </table>
+    </td>
+
+    <td>
+      <table>
+        <tr>
+          <th><h2>Crear nuevo</h2></th>    
+        </tr>
+        <tr>
+          <td>
+            <form>
+                <div>title:
+                    <input type="text" name="title" [value]="title" (input)="title = $event.target.value">
+                </div>
+                <div>content:
+                    <input type="text" name="content" [value]="content" (input)="content = $event.target.value">
+                </div>
+                <div>lat:
+                    <input type="text" name="lat" [value]="lat" (input)="lat = $event.target.value">
+                </div>
+                <div>long:
+                    <input type="text" name="long" [value]="lng" (input)="lng = $event.target.value">
+                </div>
+                <div>image_url:
+                    <input type="text" name="image_url" [value]="image_url" (input)="image_url = $event.target.value">
+                </div>
+                <div>
+                    <button (click)="createItem()">Enviar</button>
+                </div>
+            </form>
+          </td>      
+        </tr>
+      </table>
+    </td>
+
+  </tr>       
+</table>
+
+<hr>
+
+      <agm-map [latitude]="selectedItem[0]" [longitude]="selectedItem[1]">
+        <agm-marker [latitude]="selectedItem[0]" [longitude]="selectedItem[1]"></agm-marker>
+      </agm-map>
+
+
+<table>
+  <tr>
+    <th><h2>Consultar</h2></th>    
+  </tr>
+  <tr *ngFor="let city of list">
+      <td>
+          <tr>
+              <td>
+                <button (click)="deleteById(city.id)">Eliminar</button>                  
+              </td>
+              <td>
+                ID {{city.id}}<br>
+                {{city.title}}<br>
+                {{city.content}}<br>
+                <img src="{{city.image_url}}" alt="{{city.title}}" style="width: 40%;" /><br>
+              </td>
+          </tr>
+      </td>
   </tr>
 </table>
 
-<h2>Crear nuevo</h2>
-<form>
-  <div>title: <input type="text" name="title" [value]="title" (input)="title = $event.target.value"></div>
-  <div>content: <input type="text" name="content" [value]="content" (input)="content = $event.target.value"></div>
-  <div>lat: <input type="text" name="lat" [value]="lat" (input)="lat = $event.target.value"></div>
-  <div>long: <input type="text" name="long" [value]="long" (input)="long = $event.target.value"></div>
-  <div>image_url: <input type="text" name="image_url" [value]="image_url" (input)="image_url = $event.target.value"></div>
-  <div> <button (click)="createItem()">Enviar</button></div>
-</form>
+<hr>
 
 
 
+      
 <!-- <p>AIzaSyAvJsz8f8QtmQ5mNoxh0KZe2C0Rv4u2-3w</p> -->
-
-
 <router-outlet></router-outlet>
